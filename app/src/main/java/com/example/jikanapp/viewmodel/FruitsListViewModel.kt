@@ -30,7 +30,6 @@ class FruitsListViewModel @Inject constructor(
   fun search(query: String?) {
     searchJob?.cancel()
     searchJob = viewModelScope.launch {
-//      delay(5000)
       println("Searching for '$query'")
       repository.search(query)
     }

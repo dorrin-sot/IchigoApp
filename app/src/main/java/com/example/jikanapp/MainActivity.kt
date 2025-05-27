@@ -11,15 +11,18 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -38,7 +41,6 @@ import com.example.jikanapp.view.LoadingRefreshButton
 import com.example.jikanapp.view.fruitslist.FruitsListView
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.getValue
 
 
 @AndroidEntryPoint
@@ -52,29 +54,18 @@ class MainActivity : ComponentActivity() {
 
     setContent {
       AppTheme {
+        val query by rememberSaveable { viewModel.query }
+
         Scaffold(
           modifier = Modifier.fillMaxSize(),
           topBar = {
-            val query by rememberSaveable { viewModel.query }
-
             TopAppBar(
               title = {
-                AnimatedVisibility(
-                  visible = query != null,
-                  enter = fadeIn() + slideInVertically(),
-                  exit = fadeOut() + slideOutVertically()
-                ) {
-                  CustomSearchbar(
-                    value = query,
-                    onValueChange = { viewModel.search(it) }
-                  )
-                }
-                if (query == null)
-                  Text(
-                    "Fruits",
-                    fontWeight = FontWeight.Black,
-                    style = MaterialTheme.typography.titleLarge,
-                  )
+                Text(
+                  "Fruits",
+                  fontWeight = FontWeight.Black,
+                  style = MaterialTheme.typography.titleLarge,
+                )
               },
               actions = {
                 Row(
@@ -87,6 +78,10 @@ class MainActivity : ComponentActivity() {
                   if (query == null) {
                     IconButton(onClick = { viewModel.search("") }) {
                       Icon(Icons.Default.Search, "Search")
+                    }
+                  } else {
+                    IconButton(onClick = { viewModel.search(null) }) {
+                      Icon(Icons.Default.SearchOff, "DismissSearch")
                     }
                   }
 
@@ -113,9 +108,31 @@ class MainActivity : ComponentActivity() {
             )
           }
         ) { innerPadding ->
-          FruitsListView(
-            modifier = Modifier.padding(innerPadding)
-          )
+          Box {
+            FruitsListView(
+              modifier = Modifier
+                .padding(innerPadding)
+                .padding(
+                  top =
+                    if (query == null) 0.dp
+                    else OutlinedTextFieldDefaults.MinHeight + 5.dp
+                )
+            )
+
+            AnimatedVisibility(
+              visible = query != null,
+              enter = fadeIn() + slideInVertically(),
+              exit = fadeOut() + slideOutVertically(),
+              modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(innerPadding)
+            ) {
+              CustomSearchbar(
+                value = query,
+                onValueChange = { viewModel.search(it) }
+              )
+            }
+          }
         }
       }
     }
