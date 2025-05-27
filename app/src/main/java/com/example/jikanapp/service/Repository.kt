@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.model.Fruit
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 class Repository(
@@ -64,6 +65,7 @@ class Repository(
 
   suspend fun search(query: String?) {
     this.query.value = query
+    delay(1000) // Debounce :)
     fetchFruits()
   }
 
