@@ -10,14 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FruitsListView(
-  modifier: Modifier = Modifier,
-  viewModel: FruitsListViewModel
-) {
+fun FruitsListView(modifier: Modifier = Modifier) {
+  val viewModel = hiltViewModel<FruitsListViewModel>()
+
   val fruits = viewModel.fruits
   LaunchedEffect(Unit) {
     viewModel.fetchFruits()
@@ -39,7 +39,7 @@ fun FruitsListView(
       .forEach { initial, list ->
         stickyHeader(initial) { FruitsListHeaderLetterView(initial) }
 
-        items(list) { fruit -> FruitsListItemView(fruit, viewModel) }
+        items(list) { fruit -> FruitsListItemView(fruit) }
       }
   }
 }

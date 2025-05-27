@@ -16,10 +16,7 @@ import com.example.jikanapp.viewmodel.FruitsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FruitsListItemView(
-  fruit: Fruit,
-  viewModel: FruitsListViewModel,
-) {
+internal fun FruitsListItemView(fruit: Fruit) {
   ListItem(
     shadowElevation = 3.dp,
     tonalElevation = 1.dp,
@@ -30,7 +27,7 @@ internal fun FruitsListItemView(
         modifier = Modifier.width(IntrinsicSize.Max)
       )
     },
-    supportingContent = { FruitAncestryView(fruit, viewModel) },
+    supportingContent = { FruitAncestryView(fruit) },
     modifier = Modifier
       .padding(5.dp)
       .clickable(onClick = {})

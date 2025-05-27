@@ -38,6 +38,7 @@ import com.example.jikanapp.view.LoadingRefreshButton
 import com.example.jikanapp.view.fruitslist.FruitsListView
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.getValue
 
 
 @AndroidEntryPoint
@@ -113,7 +114,6 @@ class MainActivity : ComponentActivity() {
           }
         ) { innerPadding ->
           FruitsListView(
-            viewModel = viewModel,
             modifier = Modifier.padding(innerPadding)
           )
         }

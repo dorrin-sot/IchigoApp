@@ -7,12 +7,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.model.Fruit
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 
 @Composable
-internal fun FruitAncestryView(fruit: Fruit, viewModel: FruitsListViewModel) {
+internal fun FruitAncestryView(fruit: Fruit) {
+  val viewModel = hiltViewModel<FruitsListViewModel>()
+
   Column {
     Row {
       Text(
