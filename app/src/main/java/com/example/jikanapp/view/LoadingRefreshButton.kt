@@ -9,23 +9,23 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.jikanapp.service.DataStatus
+import com.example.jikanapp.service.DatabaseStatus
 
 @Composable
 fun LoadingRefreshButton(
-  dataStatus: DataStatus,
+  databaseStatus: DatabaseStatus,
   onRefresh: () -> Unit
 ) {
   IconButton(
     onClick = onRefresh,
-    enabled = dataStatus == DataStatus.DatabaseUpdated,
+    enabled = databaseStatus == DatabaseStatus.Updated,
     modifier = Modifier.size(20.dp),
   ) {
-    when (dataStatus) {
-      DataStatus.DatabaseUpdated ->
+    when (databaseStatus) {
+      DatabaseStatus.Updated ->
         Icon(Icons.Default.Refresh, "Refresh List")
 
-      DataStatus.DatabaseUpdating ->
+      DatabaseStatus.Updating ->
         CircularProgressIndicator()
     }
   }

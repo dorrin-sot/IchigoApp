@@ -8,7 +8,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class FruitsListViewModel(private val repository: Repository) : ViewModel() {
-  val dataStatus get() = repository.dataStatus
+  val dataStatus get() = repository.databaseStatus
   val fruits get() = repository.fruits
   val filter get() = repository.filter
   val query get() = repository.query

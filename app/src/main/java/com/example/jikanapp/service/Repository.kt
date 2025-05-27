@@ -11,7 +11,7 @@ class Repository(
   val db: AppDatabase,
   val fruitApi: FruitApi,
 ) {
-  var dataStatus = mutableStateOf(DataStatus.Default)
+  var databaseStatus = mutableStateOf(DatabaseStatus.Default)
   var fruits = mutableStateListOf<Fruit>()
   var filter = mutableStateOf<Pair<AncestryLevel, String>?>(null)
   var query = mutableStateOf<String?>(null)
@@ -42,13 +42,13 @@ class Repository(
 
   suspend fun fetchFruits() {
     updateFruitsFromDb()
-    dataStatus.value = DataStatus.DatabaseUpdating
+    databaseStatus.value = DatabaseStatus.Updating
     val apiResults = apiFetchFruits()
     if (apiResults.isNotEmpty()) {
       updateDbWithResult(apiResults)
 
       updateFruitsFromDb()
-      dataStatus.value = DataStatus.DatabaseUpdated
+      databaseStatus.value = DatabaseStatus.Updated
     }
   }
 
@@ -75,12 +75,4 @@ class Repository(
         ?.body()
         ?: emptyList()
     }
-}
-
-enum class DataStatus {
-  DatabaseUpdating, DatabaseUpdated;
-
-  companion object {
-    val Default = DatabaseUpdating
-  }
 }
