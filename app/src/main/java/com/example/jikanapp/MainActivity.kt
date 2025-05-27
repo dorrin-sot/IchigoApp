@@ -98,7 +98,7 @@ class MainActivity : ComponentActivity() {
                   val filter by rememberSaveable { viewModel.filter }
                   if (filter != null) {
                     FilterChip(
-                      label = "${filter!!.first}: ${filter!!.second}",
+                      label = "${filter!!.first}: ${filter!!.second}".capitalize(),
                       onDismiss = { viewModel.removeFilter() }
                     )
                   }
