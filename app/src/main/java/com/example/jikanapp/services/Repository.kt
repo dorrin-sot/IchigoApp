@@ -7,8 +7,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class Repository(
-  val db: AppDatabase
-  /*val apiService : Api*/
+  val db: AppDatabase,
+  val fruitApi: FruitApi,
 ) {
   var dataStatus = mutableStateOf(DataStatus.Default)
   var fruits = mutableStateListOf<Fruit>()
@@ -69,15 +69,12 @@ class Repository(
 
   suspend fun apiFetchFruits(): List<Fruit> =
     withContext(Dispatchers.IO) {
-      //apiService.fetchAll()
-      RetrofitHelper.api.fetchAll()
+      fruitApi.fetchAll()
         .runCatching { execute() }
         .getOrNull()
         ?.body()
         ?: emptyList()
     }
-
-
 }
 
 enum class DataStatus {

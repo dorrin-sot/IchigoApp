@@ -33,6 +33,7 @@ import androidx.compose.ui.zIndex
 import androidx.room.Room
 import com.example.jikanapp.services.AppDatabase
 import com.example.jikanapp.services.Repository
+import com.example.jikanapp.services.RetrofitHelper
 import com.example.jikanapp.ui.theme.AppTheme
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 import com.example.jikanapp.views.CustomSearchbar
@@ -51,8 +52,7 @@ class MainActivity : ComponentActivity() {
       .databaseBuilder(applicationContext, AppDatabase::class.java, "jikan-db")
       .fallbackToDestructiveMigration(dropAllTables = true)
       .build()
-   // val factory = FruitsListViewModelFactory(Repository(db))
-    val viewModel = FruitsListViewModel(Repository(db))
+    val viewModel = FruitsListViewModel(Repository(db, RetrofitHelper.fruitApi))
 
     setContent {
       AppTheme {
@@ -85,7 +85,6 @@ class MainActivity : ComponentActivity() {
                   verticalAlignment = Alignment.CenterVertically,
                   horizontalArrangement = Arrangement.End,
                   modifier = Modifier
-//                      .fillMaxWidth()
                     .padding(start = 10.dp, end = 7.5.dp)
                 ) {
 
