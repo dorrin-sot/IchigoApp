@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view.fruitslist
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn

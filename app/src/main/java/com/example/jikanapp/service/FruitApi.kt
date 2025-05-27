@@ -1,6 +1,6 @@
-package com.example.jikanapp.services
+package com.example.jikanapp.service
 
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

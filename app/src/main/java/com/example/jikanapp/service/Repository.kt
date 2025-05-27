@@ -1,8 +1,8 @@
-package com.example.jikanapp.services
+package com.example.jikanapp.service
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

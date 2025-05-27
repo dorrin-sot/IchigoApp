@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view.fruitslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -7,11 +7,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 
 @Composable
-fun FruitAncestryView(fruit: Fruit, viewModel: FruitsListViewModel) {
+internal fun FruitAncestryView(fruit: Fruit, viewModel: FruitsListViewModel) {
   Column {
     Row {
       Text(

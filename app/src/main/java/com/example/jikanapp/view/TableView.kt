@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement

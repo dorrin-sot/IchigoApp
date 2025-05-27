@@ -2,7 +2,7 @@ package com.example.jikanapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jikanapp.services.Repository
+import com.example.jikanapp.service.Repository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 

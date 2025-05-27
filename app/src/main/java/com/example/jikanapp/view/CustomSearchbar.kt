@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding

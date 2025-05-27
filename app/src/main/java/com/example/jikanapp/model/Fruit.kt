@@ -1,4 +1,4 @@
-package com.example.jikanapp.models
+package com.example.jikanapp.model
 
 import androidx.room.Embedded
 import androidx.room.Entity

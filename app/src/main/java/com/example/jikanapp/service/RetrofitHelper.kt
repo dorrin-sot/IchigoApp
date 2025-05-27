@@ -1,4 +1,4 @@
-package com.example.jikanapp.services
+package com.example.jikanapp.service
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

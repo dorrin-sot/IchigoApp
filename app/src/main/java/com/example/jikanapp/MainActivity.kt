@@ -31,15 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.room.Room
-import com.example.jikanapp.services.AppDatabase
-import com.example.jikanapp.services.Repository
-import com.example.jikanapp.services.RetrofitHelper
+import com.example.jikanapp.service.AppDatabase
+import com.example.jikanapp.service.Repository
+import com.example.jikanapp.service.RetrofitHelper
 import com.example.jikanapp.ui.theme.AppTheme
 import com.example.jikanapp.viewmodel.FruitsListViewModel
-import com.example.jikanapp.views.CustomSearchbar
-import com.example.jikanapp.views.FilterChip
-import com.example.jikanapp.views.FruitsListView
-import com.example.jikanapp.views.LoadingRefreshButton
+import com.example.jikanapp.view.CustomSearchbar
+import com.example.jikanapp.view.FilterChip
+import com.example.jikanapp.view.fruitslist.FruitsListView
+import com.example.jikanapp.view.LoadingRefreshButton
 
 
 class MainActivity : ComponentActivity() {

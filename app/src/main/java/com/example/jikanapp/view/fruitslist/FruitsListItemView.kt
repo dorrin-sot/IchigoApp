@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view.fruitslist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -11,12 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FruitsListItemView(
+internal fun FruitsListItemView(
   fruit: Fruit,
   viewModel: FruitsListViewModel,
 ) {

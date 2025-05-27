@@ -1,16 +1,15 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.jikanapp.services.DataStatus
+import com.example.jikanapp.service.DataStatus
 
 @Composable
 fun LoadingRefreshButton(

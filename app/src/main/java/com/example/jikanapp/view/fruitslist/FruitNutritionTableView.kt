@@ -1,11 +1,12 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view.fruitslist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
+import com.example.jikanapp.view.TableView
 
 @Composable
-fun FruitNutritionTableView(
+internal fun FruitNutritionTableView(
   fruit: Fruit,
   modifier: Modifier
 ) {

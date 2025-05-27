@@ -1,4 +1,4 @@
-package com.example.jikanapp.services
+package com.example.jikanapp.service
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.example.jikanapp.models.Fruit
+import com.example.jikanapp.model.Fruit
 
 @Dao
 interface FruitDao {

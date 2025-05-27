@@ -1,4 +1,4 @@
-package com.example.jikanapp.views
+package com.example.jikanapp.view.fruitslist
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,7 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun FruitsListHeaderLetterView(initial: Char) {
+internal fun FruitsListHeaderLetterView(initial: Char) {
   Surface(
     color = Color(0xFFC1AFEA),
     shape = RoundedCornerShape(10.dp),
