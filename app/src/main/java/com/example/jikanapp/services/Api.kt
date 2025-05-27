@@ -1,0 +1,17 @@
+package com.example.jikanapp.services
+
+import com.example.jikanapp.models.Fruit
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Path
+
+interface Api {
+  @GET("/api/fruit/all")
+  fun fetchAll(): Call<List<Fruit>>
+
+  @GET("/api/fruit/{id}")
+  fun fetchFruitById(@Path("id") id: Int)
+
+  @GET("/api/fruit/{name}")
+  fun fetchFruitByName(@Path("name") name: String)
+}

@@ -1,0 +1,65 @@
+package com.example.jikanapp.services
+
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
+import com.example.jikanapp.models.Fruit
+
+@Dao
+interface FruitDao {
+  @Query("select * from fruit")
+  fun getAll(): List<Fruit>
+
+  @Insert(onConflict = OnConflictStrategy.ABORT)
+  fun insertAll(vararg fruit: Fruit)
+
+  @Delete
+  fun delete(fruit: Fruit)
+
+  @Delete
+  fun deleteSome(vararg fruit: Fruit)
+
+  @Transaction()
+  @Query("delete from fruit where 1")
+  fun deleteAll()
+
+  @Query("select * from fruit where family = :value")
+  fun filterFamily(value: String): List<Fruit>
+
+  @Query("select * from fruit where `order` = :value")
+  fun filterOrder(value: String): List<Fruit>
+
+  @Query("select * from fruit where genus = :value")
+  fun filterGenus(value: String): List<Fruit>
+
+  @Query("select * from fruit where name like :query")
+  fun getAllWithSearchQuery(query: String): List<Fruit>
+
+  @Query("select * from fruit where name like :query and family = :family")
+  fun filterFamilyWithSearchQuery(query: String, family: String): List<Fruit>
+
+  @Query("select * from fruit where name like :query and `order` = :order")
+  fun filterOrderWithSearchQuery(query: String, order: String): List<Fruit>
+
+  @Query("select * from fruit where name like :query and genus = :genus")
+  fun filterGenusWithSearchQuery(query: String, genus: String): List<Fruit>
+
+  fun get(filter: Pair<String, String>?, query: String?): List<Fruit> =
+    if (query == null)
+      when (filter?.first) {
+        "family" -> filterFamily(filter.second)
+        "order" -> filterOrder(filter.second)
+        "genus" -> filterGenus(filter.second)
+        else -> getAll()
+      }
+    else
+      when (filter?.first) {
+        "family" -> filterFamilyWithSearchQuery("%${query}%", filter.second)
+        "order" -> filterOrderWithSearchQuery("%${query}%", filter.second)
+        "genus" -> filterGenusWithSearchQuery("%${query}%", filter.second)
+        else -> getAllWithSearchQuery("%${query}%")
+      }
+}
