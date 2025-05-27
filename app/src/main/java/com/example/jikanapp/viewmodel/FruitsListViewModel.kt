@@ -2,6 +2,7 @@ package com.example.jikanapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.service.Repository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -16,7 +17,7 @@ class FruitsListViewModel(private val repository: Repository) : ViewModel() {
 
   fun fetchFruits() = viewModelScope.launch { repository.fetchFruits() }
 
-  fun filterByAncestor(key: String, value: String) =
+  fun filterByAncestor(key: AncestryLevel, value: String) =
     viewModelScope.launch { repository.filterByAncestor(key, value) }
 
   fun removeFilter() = viewModelScope.launch { repository.removeFilter() }

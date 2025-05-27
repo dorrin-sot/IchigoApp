@@ -7,6 +7,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.model.Fruit
 import com.example.jikanapp.viewmodel.FruitsListViewModel
 
@@ -18,21 +19,21 @@ internal fun FruitAncestryView(fruit: Fruit, viewModel: FruitsListViewModel) {
         fruit.family,
         fontWeight = FontWeight.Light,
         modifier = Modifier
-          .clickable(onClick = { viewModel.filterByAncestor("family", fruit.family) })
+          .clickable(onClick = { viewModel.filterByAncestor(AncestryLevel.Family, fruit.family) })
       )
       Text(" | ", fontWeight = FontWeight.ExtraLight)
       Text(
         fruit.order,
         fontWeight = FontWeight.Light,
         modifier = Modifier
-          .clickable(onClick = { viewModel.filterByAncestor("order", fruit.order) })
+          .clickable(onClick = { viewModel.filterByAncestor(AncestryLevel.Order, fruit.order) })
       )
       Text(" | ", fontWeight = FontWeight.ExtraLight)
       Text(
         fruit.genus,
         fontWeight = FontWeight.Light,
         modifier = Modifier
-          .clickable(onClick = { viewModel.filterByAncestor("genus", fruit.genus) })
+          .clickable(onClick = { viewModel.filterByAncestor(AncestryLevel.Genus, fruit.genus) })
       )
     }
   }

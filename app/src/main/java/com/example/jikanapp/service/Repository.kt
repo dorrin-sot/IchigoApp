@@ -2,6 +2,7 @@ package com.example.jikanapp.service
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.model.Fruit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +13,7 @@ class Repository(
 ) {
   var dataStatus = mutableStateOf(DataStatus.Default)
   var fruits = mutableStateListOf<Fruit>()
-  var filter = mutableStateOf<Pair<String, String>?>(null)
+  var filter = mutableStateOf<Pair<AncestryLevel, String>?>(null)
   var query = mutableStateOf<String?>(null)
 
   private var _fruits: List<Fruit>
@@ -51,8 +52,7 @@ class Repository(
     }
   }
 
-  suspend fun filterByAncestor(key: String, value: String) {
-    assert(arrayOf("family", "order", "genus").contains(key))
+  suspend fun filterByAncestor(key: AncestryLevel, value: String) {
     filter.value = key to value
     fetchFruits()
   }

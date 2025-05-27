@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.model.Fruit
 
 @Dao
@@ -47,19 +48,26 @@ interface FruitDao {
   @Query("select * from fruit where name like :query and genus = :genus")
   fun filterGenusWithSearchQuery(query: String, genus: String): List<Fruit>
 
-  fun get(filter: Pair<String, String>?, query: String?): List<Fruit> =
-    if (query == null)
-      when (filter?.first) {
-        "family" -> filterFamily(filter.second)
-        "order" -> filterOrder(filter.second)
-        "genus" -> filterGenus(filter.second)
-        else -> getAll()
+  fun get(filter: Pair<AncestryLevel, String>?, query: String?): List<Fruit> =
+    when (filter?.first) {
+      AncestryLevel.Family -> {
+        if (query == null) filterFamily(filter.second)
+        else filterFamilyWithSearchQuery("%${query}%", filter.second)
       }
-    else
-      when (filter?.first) {
-        "family" -> filterFamilyWithSearchQuery("%${query}%", filter.second)
-        "order" -> filterOrderWithSearchQuery("%${query}%", filter.second)
-        "genus" -> filterGenusWithSearchQuery("%${query}%", filter.second)
-        else -> getAllWithSearchQuery("%${query}%")
+
+      AncestryLevel.Order -> {
+        if (query == null) filterOrder(filter.second)
+        else filterOrderWithSearchQuery("%${query}%", filter.second)
       }
+
+      AncestryLevel.Genus -> {
+        if (query == null) filterGenus(filter.second)
+        else filterGenusWithSearchQuery("%${query}%", filter.second)
+      }
+
+      null -> {
+        if (query == null) getAll()
+        else getAllWithSearchQuery("%${query}%")
+      }
+    }
 }
