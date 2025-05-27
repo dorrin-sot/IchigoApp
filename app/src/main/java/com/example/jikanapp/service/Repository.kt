@@ -7,8 +7,9 @@ import com.example.jikanapp.model.Fruit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class Repository(
+class Repository @Inject constructor(
   val db: AppDatabase,
   val fruitApi: FruitApi,
 ) {

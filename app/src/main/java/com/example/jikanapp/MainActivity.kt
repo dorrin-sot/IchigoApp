@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -30,29 +31,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import androidx.room.Room
-import com.example.jikanapp.service.AppDatabase
-import com.example.jikanapp.service.Repository
-import com.example.jikanapp.service.RetrofitHelper
 import com.example.jikanapp.ui.theme.AppTheme
-import com.example.jikanapp.viewmodel.FruitsListViewModel
 import com.example.jikanapp.view.CustomSearchbar
 import com.example.jikanapp.view.FilterChip
-import com.example.jikanapp.view.fruitslist.FruitsListView
 import com.example.jikanapp.view.LoadingRefreshButton
+import com.example.jikanapp.view.fruitslist.FruitsListView
+import com.example.jikanapp.viewmodel.FruitsListViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
   @OptIn(ExperimentalMaterial3Api::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     enableEdgeToEdge()
 
-    val db = Room
-      .databaseBuilder(applicationContext, AppDatabase::class.java, "jikan-db")
-      .fallbackToDestructiveMigration(dropAllTables = true)
-      .build()
-    val viewModel = FruitsListViewModel(Repository(db, RetrofitHelper.fruitApi))
+    val viewModel by viewModels<FruitsListViewModel>()
 
     setContent {
       AppTheme {

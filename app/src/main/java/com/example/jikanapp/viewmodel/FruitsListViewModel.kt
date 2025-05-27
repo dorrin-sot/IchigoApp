@@ -4,10 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jikanapp.model.AncestryLevel
 import com.example.jikanapp.service.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FruitsListViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class FruitsListViewModel @Inject constructor(
+  private val repository: Repository
+) : ViewModel() {
   val dataStatus get() = repository.databaseStatus
   val fruits get() = repository.fruits
   val filter get() = repository.filter
