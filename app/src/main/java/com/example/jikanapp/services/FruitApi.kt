@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface Api {
+interface FruitApi {
   @GET("/api/fruit/all")
   fun fetchAll(): Call<List<Fruit>>
 
