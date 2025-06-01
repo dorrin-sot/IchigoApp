@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-  namespace = "com.example.jikanapp"
+  namespace = "com.example.ichigoapp"
   compileSdk = 35
 
   defaultConfig {
-    applicationId = "com.example.jikanapp"
+    applicationId = "com.example.ichigoapp"
     minSdk = 24
     targetSdk = 35
     versionCode = 1
