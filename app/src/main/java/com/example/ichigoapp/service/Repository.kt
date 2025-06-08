@@ -36,7 +36,8 @@ class Repository @Inject constructor(
     _fruits = result
   }
 
-  private suspend fun updateDbWithResult(result: List<Fruit>) {
+  @VisibleForTesting
+  suspend fun updateDbWithResult(result: List<Fruit>) {
     val dao = db.fruitDao()
 
     withContext(Dispatchers.IO) {

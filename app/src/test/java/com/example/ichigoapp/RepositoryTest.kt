@@ -24,6 +24,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.kotlin.anyVararg
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepositoryTest {
@@ -106,6 +107,20 @@ class RepositoryTest {
         coVerify(exactly = 1) { dao.get(filter, query?.ifEmpty { null }) }
         if (idx < argsList.size - 1) tearDown()
       }
+  }
+
+  @Test
+  fun `Repository updateDbWithResult should call db deleteAll and insertAll`() = runTest {
+    val fruits = generateNFruits(10)
+
+    coEvery { fruitDaoMock.deleteAll() } coAnswers {}
+    coEvery { fruitDaoMock.insertAll(*anyVararg<Fruit>()) } coAnswers {}
+
+    repository.updateDbWithResult(fruits)
+    advanceUntilIdle()
+
+    coVerify { fruitDaoMock.deleteAll() }
+    coVerify { fruitDaoMock.insertAll(*fruits.toTypedArray()) }
   }
 
   private companion object {
