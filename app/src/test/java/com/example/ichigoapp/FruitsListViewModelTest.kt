@@ -1,6 +1,7 @@
 package com.example.ichigoapp
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.service.Repository
 import com.example.ichigoapp.viewmodel.FruitsListViewModel
 import io.mockk.coEvery
@@ -43,6 +44,16 @@ class FruitsListViewModelTest {
   fun tearDown() {
     println("tearDown")
     Dispatchers.resetMain()
+  }
+
+  @Test
+  fun `FruitsListViewModel filterByAncestor should call Repository filterByAncestor`() = runTest {
+    val key = AncestryLevel.Genus
+    val value = "Rosalie"
+    coEvery { repoMock.filterByAncestor(any(), any()) } coAnswers { }
+    viewModel.filterByAncestor(key, value)
+    advanceUntilIdle()
+    coVerify { repoMock.filterByAncestor(key, value) }
   }
 
   @Test
