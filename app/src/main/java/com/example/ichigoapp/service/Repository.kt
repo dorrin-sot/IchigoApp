@@ -27,7 +27,8 @@ class Repository @Inject constructor(
       fruits.addAll(value)
     }
 
-  private suspend fun updateFruitsFromDb() {
+  @VisibleForTesting
+  suspend fun updateFruitsFromDb() {
     val dao = db.fruitDao()
     val result = withContext(Dispatchers.IO) {
       dao.get(filter.value, query.value?.ifEmpty { null })

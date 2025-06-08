@@ -1,16 +1,22 @@
 package com.example.ichigoapp
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.model.Fruit
 import com.example.ichigoapp.model.Nutrition
 import com.example.ichigoapp.service.AppDatabase
 import com.example.ichigoapp.service.FruitApi
+import com.example.ichigoapp.service.FruitDao
 import com.example.ichigoapp.service.Repository
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockkClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -29,13 +35,19 @@ class RepositoryTest {
   private lateinit var repository: Repository
   private lateinit var apiMock: FruitApi
   private lateinit var dbMock: AppDatabase
+  private lateinit var fruitDaoMock: FruitDao
 
   @Before
   fun setUp() {
     println("setUp")
     Dispatchers.setMain(testDispatcher)
     apiMock = mockkClass(FruitApi::class)
+
     dbMock = mockkClass(AppDatabase::class)
+    fruitDaoMock = mockkClass(FruitDao::class)
+
+    every { dbMock.fruitDao() } returns (fruitDaoMock)
+
     repository = Repository(dbMock, apiMock)
   }
 
@@ -63,16 +75,56 @@ class RepositoryTest {
     assert(repository._fruits.toList() == repository.fruits.toList())
   }
 
-  fun generateNFruits(n: Int): List<Fruit> {
-    val fruit = Fruit(
-      id = 0,
-      name = "TODO()",
-      family = "TODO()",
-      order = "TODO()",
-      genus = "TODO()",
-      nutritions = Nutrition(calories = 1f, fat = 1f, sugar = 1f, carbohydrates = 1f, protein = 1f)
+  @Test
+  fun `Repository updateFruitsFromDb with filter and null query`() = runTest {
+    val argsList = listOf(
+      Triple(null, null, generateNFruits(10)),
+      Triple(null, "app", generateNFruits(5)),
+      Triple(AncestryLevel.Genus to "Rosa", null, generateNFruits(5)),
+      Triple(AncestryLevel.Genus to "Rosa", "app", generateNFruits(2)),
+      Triple(AncestryLevel.Genus to "Rosa", "", generateNFruits(10)),
     )
-    return List(n) { fruit.copy(id = it) }
-    repository.fruits.addAll(List(n) { fruit.copy(id = it) })
+
+    argsList
+      .forEachIndexed { idx, args ->
+        val (filter, query, results) = args
+        if (idx > 0) setUp()
+
+        repository.filter.value = filter
+        repository.query.value = query
+
+        val dao = dbMock.fruitDao()
+
+        coEvery { dao.get(null, null) } coAnswers { results }
+        coEvery { dao.get(null, any()) } coAnswers { results }
+        coEvery { dao.get(any(), null) } coAnswers { results }
+        coEvery { dao.get(any(), any()) } coAnswers { results }
+
+        repository.updateFruitsFromDb()
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) { dao.get(filter, query?.ifEmpty { null }) }
+        if (idx < argsList.size - 1) tearDown()
+      }
+  }
+
+  private companion object {
+    fun generateNFruits(n: Int): List<Fruit> {
+      val fruit = Fruit(
+        id = 0,
+        name = "TODO()",
+        family = "TODO()",
+        order = "TODO()",
+        genus = "TODO()",
+        nutritions = Nutrition(
+          calories = 1f,
+          fat = 1f,
+          sugar = 1f,
+          carbohydrates = 1f,
+          protein = 1f
+        )
+      )
+      return List(n) { fruit.copy(id = it) }
+    }
   }
 }
