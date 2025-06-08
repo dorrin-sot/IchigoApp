@@ -22,9 +22,11 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.kotlin.anyVararg
+import retrofit2.Call
+import retrofit2.mock.Calls
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepositoryTest {
@@ -121,6 +123,14 @@ class RepositoryTest {
 
     coVerify { fruitDaoMock.deleteAll() }
     coVerify { fruitDaoMock.insertAll(*fruits.toTypedArray()) }
+  }
+
+  @Test
+  fun `Repository apiFetchFruits`() = runTest {
+    val fruits = generateNFruits(10)
+    coEvery { apiMock.fetchAll() } coAnswers { Calls.response(fruits) }
+    assert(repository.apiFetchFruits() == fruits)
+    coVerify { apiMock.fetchAll() }
   }
 
   private companion object {

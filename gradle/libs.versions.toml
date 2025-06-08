@@ -27,6 +27,7 @@ mockitoInline = "5.2.0"
 mockitoKotlin = "5.4.0"
 mockk = "1.14.2"
 mockkAndroid = "1.14.2"
+retrofitMock = "3.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +63,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockkAndroid" }
+retrofit-mock = { group = "com.squareup.retrofit2", name = "retrofit-mock", version.ref = "retrofitMock" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -63,6 +63,7 @@ dependencies {
   testImplementation(libs.mockito.core)
   testImplementation(libs.mockito.kotlin)
   testImplementation(libs.mockk)
+  testImplementation(libs.retrofit.mock)
   androidTestImplementation(libs.mockk.android)
   ksp(libs.androidx.room.compiler)
   implementation(libs.androidx.room.ktx)

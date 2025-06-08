@@ -74,6 +74,7 @@ class Repository @Inject constructor(
     fetchFruits()
   }
 
+  @VisibleForTesting
   suspend fun apiFetchFruits(): List<Fruit> =
     withContext(Dispatchers.IO) {
       fruitApi.fetchAll()
