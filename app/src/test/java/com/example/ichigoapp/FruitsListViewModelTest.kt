@@ -46,6 +46,14 @@ class FruitsListViewModelTest {
   }
 
   @Test
+  fun `FruitsListViewModel removeFilter should call Repository removeFilter`() = runTest {
+    coEvery { repoMock.removeFilter() } coAnswers { }
+    viewModel.removeFilter()
+    advanceUntilIdle()
+    coVerify { repoMock.removeFilter() }
+  }
+
+  @Test
   fun `FruitsListViewModel search should call Repository search`() = runTest {
     val q = "hello"
     coEvery { repoMock.search(any()) } coAnswers { }
