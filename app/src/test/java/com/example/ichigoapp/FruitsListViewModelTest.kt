@@ -47,6 +47,14 @@ class FruitsListViewModelTest {
   }
 
   @Test
+  fun `FruitsListViewModel fetchFruits should call Repository fetchFruits`() = runTest {
+    coEvery { repoMock.fetchFruits() } coAnswers { }
+    viewModel.fetchFruits()
+    advanceUntilIdle()
+    coVerify { repoMock.fetchFruits() }
+  }
+
+  @Test
   fun `FruitsListViewModel filterByAncestor should call Repository filterByAncestor`() = runTest {
     val key = AncestryLevel.Genus
     val value = "Rosalie"
