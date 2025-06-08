@@ -33,6 +33,5 @@ class FruitsListViewModel @Inject constructor(
       println("Searching for '$query'")
       repository.search(query)
     }
-    searchJob?.start()
   }
 }
