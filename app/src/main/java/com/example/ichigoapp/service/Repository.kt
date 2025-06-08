@@ -1,5 +1,6 @@
 package com.example.ichigoapp.service
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.ichigoapp.model.AncestryLevel
@@ -18,7 +19,8 @@ class Repository @Inject constructor(
   var filter = mutableStateOf<Pair<AncestryLevel, String>?>(null)
   var query = mutableStateOf<String?>(null)
 
-  private var _fruits: List<Fruit>
+  @VisibleForTesting
+  var _fruits: List<Fruit>
     get() = fruits
     set(value) {
       fruits.removeAll { true }
