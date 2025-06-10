@@ -1,14 +1,9 @@
-package com.example.ichigoapp
+package com.example.ichigoapp.service
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.model.Fruit
 import com.example.ichigoapp.model.Nutrition
-import com.example.ichigoapp.service.AppDatabase
-import com.example.ichigoapp.service.DatabaseStatus
-import com.example.ichigoapp.service.FruitApi
-import com.example.ichigoapp.service.FruitDao
-import com.example.ichigoapp.service.Repository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

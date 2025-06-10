@@ -1,9 +1,8 @@
-package com.example.ichigoapp
+package com.example.ichigoapp.viewmodel
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.service.Repository
-import com.example.ichigoapp.viewmodel.FruitsListViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockkClass
