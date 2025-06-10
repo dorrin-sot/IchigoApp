@@ -5,6 +5,7 @@ import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.model.Fruit
 import com.example.ichigoapp.model.Nutrition
 import com.example.ichigoapp.service.AppDatabase
+import com.example.ichigoapp.service.DatabaseStatus
 import com.example.ichigoapp.service.FruitApi
 import com.example.ichigoapp.service.FruitDao
 import com.example.ichigoapp.service.Repository
@@ -12,28 +13,28 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockkClass
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-import retrofit2.Call
-import retrofit2.mock.Calls
+import org.mockito.kotlin.anyOrNull
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RepositoryTest {
   @get:Rule
   val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-  private val testDispatcher = UnconfinedTestDispatcher(TestCoroutineScheduler())
+  private val testDispatcher = StandardTestDispatcher(TestCoroutineScheduler())
 
   private lateinit var repository: Repository
   private lateinit var apiMock: FruitApi
@@ -51,7 +52,7 @@ class RepositoryTest {
 
     every { dbMock.fruitDao() } returns (fruitDaoMock)
 
-    repository = Repository(dbMock, apiMock)
+    repository = Repository(dbMock, apiMock, testDispatcher)
   }
 
   @After
@@ -128,9 +129,53 @@ class RepositoryTest {
   @Test
   fun `Repository apiFetchFruits`() = runTest {
     val fruits = generateNFruits(10)
-    coEvery { apiMock.fetchAll() } coAnswers { Calls.response(fruits) }
+    coEvery { apiMock.fetchAll() } coAnswers { fruits }
     assert(repository.apiFetchFruits() == fruits)
     coVerify { apiMock.fetchAll() }
+  }
+
+
+  @Test
+  fun `Repository fetchFruits correct behavior`() = runTest(testDispatcher) {
+    val dbFruits = generateNFruits(10)
+    val apiFruits = generateNFruits(20)
+
+    val stage1Deferred = CompletableDeferred<List<Fruit>>()
+    val stage2Deferred = CompletableDeferred<List<Fruit>>()
+    val stage3Deferred = CompletableDeferred<List<Fruit>>()
+
+    coEvery { fruitDaoMock.get(anyOrNull(), anyOrNull()) } coAnswers {
+      if (stage1Deferred.isActive) stage1Deferred.await()
+      else stage3Deferred.await()
+    }
+    coEvery { apiMock.fetchAll() } coAnswers { stage2Deferred.await() }
+    coEvery { fruitDaoMock.deleteAll() } coAnswers {}
+    coEvery { fruitDaoMock.insertAll(*varargAny<Fruit> { true }) } coAnswers {}
+
+    val job = async { repository.fetchFruits() }
+    advanceUntilIdle()
+
+    assert(repository.fruits.isEmpty()) { "Fruits should be empty but is ${repository.fruits.size}" }
+
+    stage1Deferred.complete(dbFruits)
+
+    advanceUntilIdle()
+    assert(repository.fruits.size == dbFruits.size) { "Fruits should be the db amount but is ${repository.fruits.size}" }
+    assert(repository.databaseStatus.value == DatabaseStatus.Updating)
+
+    stage2Deferred.complete(apiFruits) // DB update
+    advanceUntilIdle()
+    assert(repository.fruits.size == dbFruits.size) { "Fruits should be the db amount but is ${repository.fruits.size}" }
+
+    stage3Deferred.complete(apiFruits)
+    advanceUntilIdle()
+    assert(repository.fruits.size == apiFruits.size) { "Fruits should be the api amount but is ${repository.fruits.size}" }
+    assert(repository.databaseStatus.value == DatabaseStatus.Updated)
+
+    job.await()
+    coVerify(exactly = 1) { fruitDaoMock.deleteAll() }
+    coVerify(exactly = 1) { fruitDaoMock.insertAll(*varargAny<Fruit> { true }) }
+    coVerify(exactly = 2) { fruitDaoMock.get(null, null) }
   }
 
   private companion object {

@@ -12,43 +12,43 @@ import com.example.ichigoapp.model.Fruit
 @Dao
 interface FruitDao {
   @Query("select * from fruit")
-  fun getAll(): List<Fruit>
+  suspend fun getAll(): List<Fruit>
 
   @Insert(onConflict = OnConflictStrategy.ABORT)
-  fun insertAll(vararg fruit: Fruit)
+  suspend fun insertAll(vararg fruit: Fruit)
 
   @Delete
-  fun delete(fruit: Fruit)
+  suspend fun delete(fruit: Fruit)
 
   @Delete
-  fun deleteSome(vararg fruit: Fruit)
+  suspend fun deleteSome(vararg fruit: Fruit)
 
   @Transaction()
   @Query("delete from fruit where 1")
-  fun deleteAll()
+  suspend fun deleteAll()
 
   @Query("select * from fruit where family = :value")
-  fun filterFamily(value: String): List<Fruit>
+  suspend fun filterFamily(value: String): List<Fruit>
 
   @Query("select * from fruit where `order` = :value")
-  fun filterOrder(value: String): List<Fruit>
+  suspend fun filterOrder(value: String): List<Fruit>
 
   @Query("select * from fruit where genus = :value")
-  fun filterGenus(value: String): List<Fruit>
+  suspend fun filterGenus(value: String): List<Fruit>
 
   @Query("select * from fruit where name like :query")
-  fun getAllWithSearchQuery(query: String): List<Fruit>
+  suspend fun getAllWithSearchQuery(query: String): List<Fruit>
 
   @Query("select * from fruit where name like :query and family = :family")
-  fun filterFamilyWithSearchQuery(query: String, family: String): List<Fruit>
+  suspend fun filterFamilyWithSearchQuery(query: String, family: String): List<Fruit>
 
   @Query("select * from fruit where name like :query and `order` = :order")
-  fun filterOrderWithSearchQuery(query: String, order: String): List<Fruit>
+  suspend fun filterOrderWithSearchQuery(query: String, order: String): List<Fruit>
 
   @Query("select * from fruit where name like :query and genus = :genus")
-  fun filterGenusWithSearchQuery(query: String, genus: String): List<Fruit>
+  suspend fun filterGenusWithSearchQuery(query: String, genus: String): List<Fruit>
 
-  fun get(filter: Pair<AncestryLevel, String>?, query: String?): List<Fruit> =
+  suspend fun get(filter: Pair<AncestryLevel, String>?, query: String?): List<Fruit> =
     when (filter?.first) {
       AncestryLevel.Family -> {
         if (query == null) filterFamily(filter.second)

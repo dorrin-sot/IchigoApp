@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.model.Fruit
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -13,6 +14,7 @@ import javax.inject.Inject
 class Repository @Inject constructor(
   val db: AppDatabase,
   val fruitApi: FruitApi,
+  val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
   var databaseStatus = mutableStateOf(DatabaseStatus.Default)
   var fruits = mutableStateListOf<Fruit>()
@@ -30,7 +32,7 @@ class Repository @Inject constructor(
   @VisibleForTesting
   suspend fun updateFruitsFromDb() {
     val dao = db.fruitDao()
-    val result = withContext(Dispatchers.IO) {
+    val result = withContext(ioDispatcher) {
       dao.get(filter.value, query.value?.ifEmpty { null })
     }
     _fruits = result
@@ -40,7 +42,7 @@ class Repository @Inject constructor(
   suspend fun updateDbWithResult(result: List<Fruit>) {
     val dao = db.fruitDao()
 
-    withContext(Dispatchers.IO) {
+    withContext(ioDispatcher) {
       dao.deleteAll()
       dao.insertAll(*result.toTypedArray())
     }
@@ -75,12 +77,5 @@ class Repository @Inject constructor(
   }
 
   @VisibleForTesting
-  suspend fun apiFetchFruits(): List<Fruit> =
-    withContext(Dispatchers.IO) {
-      fruitApi.fetchAll()
-        .runCatching { execute() }
-        .getOrNull()
-        ?.body()
-        ?: emptyList()
-    }
+  suspend fun apiFetchFruits(): List<Fruit> = withContext(ioDispatcher) { fruitApi.fetchAll() }
 }
