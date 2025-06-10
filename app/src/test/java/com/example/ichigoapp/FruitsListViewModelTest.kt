@@ -34,17 +34,13 @@ class FruitsListViewModelTest {
 
   @Before
   fun setUp() {
-    println("setUp")
     Dispatchers.setMain(testDispatcher)
     repoMock = mockkClass(Repository::class)
     viewModel = FruitsListViewModel(repoMock)
   }
 
   @After
-  fun tearDown() {
-    println("tearDown")
-    Dispatchers.resetMain()
-  }
+  fun tearDown() = Dispatchers.resetMain()
 
   @Test
   fun `FruitsListViewModel fetchFruits should call Repository fetchFruits`() = runTest {

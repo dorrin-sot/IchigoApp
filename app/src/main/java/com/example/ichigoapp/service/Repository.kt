@@ -17,9 +17,13 @@ class Repository @Inject constructor(
   val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
   var databaseStatus = mutableStateOf(DatabaseStatus.Default)
+    private set
   var fruits = mutableStateListOf<Fruit>()
+    private set
   var filter = mutableStateOf<Pair<AncestryLevel, String>?>(null)
+    private set
   var query = mutableStateOf<String?>(null)
+    private set
 
   @VisibleForTesting
   var _fruits: List<Fruit>

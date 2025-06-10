@@ -43,7 +43,6 @@ class RepositoryTest {
 
   @Before
   fun setUp() {
-    println("setUp")
     Dispatchers.setMain(testDispatcher)
     apiMock = mockkClass(FruitApi::class)
 
@@ -56,10 +55,7 @@ class RepositoryTest {
   }
 
   @After
-  fun tearDown() {
-    println("tearDown")
-    Dispatchers.resetMain()
-  }
+  fun tearDown() = Dispatchers.resetMain()
 
   @Test
   fun `Repository _fruits getter should return fruits value`() = runTest {
