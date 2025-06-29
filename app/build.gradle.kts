@@ -17,7 +17,7 @@ android {
     versionCode = 1
     versionName = "1.0"
 
-    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner = "com.example.ichigoapp.CustomTestRunner"
   }
 
   buildTypes {
@@ -35,6 +35,12 @@ android {
   }
   buildFeatures {
     compose = true
+  }
+  packaging {
+    resources {
+      excludes += "/META-INF/LICENSE-notice.md"
+      excludes += "META-INF/LICENSE.md"
+    }
   }
 }
 
@@ -66,9 +72,13 @@ dependencies {
   testImplementation(libs.retrofit.mock)
   testImplementation(libs.junit.jupiter)
   androidTestImplementation(libs.mockk.android)
+  androidTestImplementation(libs.hilt.android.testing)
+  androidTestImplementation(libs.androidx.runner)
+  androidTestUtil(libs.androidx.orchestrator)
   ksp(libs.androidx.room.compiler)
   implementation(libs.androidx.room.ktx)
   ksp(libs.hilt.compiler)
+  kspAndroidTest(libs.hilt.compiler)
   implementation(libs.hilt.android)
   implementation(libs.androidx.hilt.navigation.compose)
   debugImplementation(libs.androidx.ui.tooling)

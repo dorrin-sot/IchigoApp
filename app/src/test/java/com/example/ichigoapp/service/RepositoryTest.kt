@@ -172,17 +172,17 @@ class RepositoryTest {
   private companion object {
     fun generateNFruits(n: Int): List<Fruit> {
       val fruit = Fruit(
-        id = 0,
-        name = "TODO()",
-        family = "TODO()",
-        order = "TODO()",
-        genus = "TODO()",
+        id = 3,
+        name = "Strawberry",
+        family = "Rosaceae",
+        order = "Rosales",
+        genus = "Fragaria",
         nutritions = Nutrition(
-          calories = 1f,
-          fat = 1f,
-          sugar = 1f,
-          carbohydrates = 1f,
-          protein = 1f
+          calories = 29f,
+          fat = 0.4f,
+          sugar = 5.4f,
+          carbohydrates = 5.5f,
+          protein = 0.8f,
         )
       )
       return List(n) { fruit.copy(id = it) }
