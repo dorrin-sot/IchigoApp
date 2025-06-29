@@ -1,9 +1,9 @@
 package com.example.ichigoapp.service
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.ichigoapp.TestDataGenerator.generateNFruits
 import com.example.ichigoapp.model.AncestryLevel
 import com.example.ichigoapp.model.Fruit
-import com.example.ichigoapp.model.Nutrition
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -167,25 +167,5 @@ class RepositoryTest {
     coVerify(exactly = 1) { fruitDaoMock.deleteAll() }
     coVerify(exactly = 1) { fruitDaoMock.insertAll(*varargAny<Fruit> { true }) }
     coVerify(exactly = 2) { fruitDaoMock.get(null, null) }
-  }
-
-  private companion object {
-    fun generateNFruits(n: Int): List<Fruit> {
-      val fruit = Fruit(
-        id = 3,
-        name = "Strawberry",
-        family = "Rosaceae",
-        order = "Rosales",
-        genus = "Fragaria",
-        nutritions = Nutrition(
-          calories = 29f,
-          fat = 0.4f,
-          sugar = 5.4f,
-          carbohydrates = 5.5f,
-          protein = 0.8f,
-        )
-      )
-      return List(n) { fruit.copy(id = it) }
-    }
   }
 }

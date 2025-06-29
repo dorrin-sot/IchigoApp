@@ -6,9 +6,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.ichigoapp.TestMainActivity
+import com.example.ichigoapp.TestDataGenerator.generateFruit
 import com.example.ichigoapp.model.AncestryLevel
-import com.example.ichigoapp.model.Fruit
-import com.example.ichigoapp.model.Nutrition
 import com.example.ichigoapp.service.Repository
 import com.example.ichigoapp.ui.theme.IchigoTheme
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -80,23 +79,5 @@ class FruitAncestryViewInstrumentedTest {
         }
       }
     }
-  }
-
-  companion object {
-    private fun generateFruit(): Fruit =
-      Fruit(
-        id = 3,
-        name = "Strawberry",
-        family = "Rosaceae",
-        order = "Rosales",
-        genus = "Fragaria",
-        nutritions = Nutrition(
-          calories = 29f,
-          fat = 0.4f,
-          sugar = 5.4f,
-          carbohydrates = 5.5f,
-          protein = 0.8f,
-        )
-      )
   }
 }

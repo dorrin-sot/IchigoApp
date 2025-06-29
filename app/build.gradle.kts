@@ -42,6 +42,12 @@ android {
       excludes += "META-INF/LICENSE.md"
     }
   }
+
+  sourceSets {
+    getByName("main") {
+      java.srcDirs("src/sharedTest/java")
+    }
+  }
 }
 
 dependencies {

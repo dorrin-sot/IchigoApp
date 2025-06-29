@@ -27,7 +27,6 @@ fun TableView(
   modifier: Modifier
 ) {
   Column(
-//      .width(IntrinsicSize.Max)
     modifier = Modifier
       .border(
         2.dp,
