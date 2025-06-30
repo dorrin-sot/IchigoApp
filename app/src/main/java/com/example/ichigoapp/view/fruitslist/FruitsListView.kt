@@ -9,6 +9,7 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.ichigoapp.viewmodel.FruitsListViewModel
@@ -31,15 +32,26 @@ fun FruitsListView(modifier: Modifier = Modifier) {
         onRefresh = { viewModel.fetchFruits() }
       )
       .padding(5.dp)
+      .testTag("fruits-list")
       .then(modifier),
   ) {
     fruits
       .groupBy { it.name.uppercase().trim().first() }
       .toSortedMap()
       .forEach { initial, list ->
-        stickyHeader(initial) { FruitsListHeaderLetterView(initial) }
+        stickyHeader(initial) {
+          FruitsListHeaderLetterView(
+            initial,
+            modifier = Modifier.testTag("$initial-sticky-header")
+          )
+        }
 
-        items(list) { fruit -> FruitsListItemView(fruit) }
+        items(list) { fruit ->
+          FruitsListItemView(
+            fruit,
+            Modifier.testTag("${fruit.id}-item")
+          )
+        }
       }
   }
 }

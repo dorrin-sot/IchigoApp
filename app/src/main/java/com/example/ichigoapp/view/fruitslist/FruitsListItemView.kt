@@ -12,11 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.ichigoapp.model.Fruit
-import com.example.ichigoapp.viewmodel.FruitsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FruitsListItemView(fruit: Fruit) {
+internal fun FruitsListItemView(fruit: Fruit, modifier: Modifier) {
   ListItem(
     shadowElevation = 3.dp,
     tonalElevation = 1.dp,
@@ -31,5 +30,6 @@ internal fun FruitsListItemView(fruit: Fruit) {
     modifier = Modifier
       .padding(5.dp)
       .clickable(onClick = {})
+      .then(modifier)
   )
 }
