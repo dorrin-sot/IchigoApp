@@ -16,6 +16,8 @@ import com.example.ichigoapp.service.AppDatabase
 import com.example.ichigoapp.service.FruitApi
 import com.example.ichigoapp.service.Repository
 import com.example.ichigoapp.ui.theme.IchigoTheme
+import com.example.ichigoapp.view.fruitslist.FruitsListViewTestTags.FRUITS_LIST_TEST_TAG
+import com.example.ichigoapp.view.fruitslist.FruitsListViewTestTags.fruitItemTestTag
 import dagger.hilt.android.testing.BindValue
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -69,8 +71,8 @@ class FruitsListViewInstrumentedTest {
       waitForIdle()
 
       fruits.forEach {
-        onNodeWithTag("fruits-list")
-          .performScrollToNode(hasTestTag("${it.id}-item"))
+        onNodeWithTag(FRUITS_LIST_TEST_TAG)
+          .performScrollToNode(hasTestTag(fruitItemTestTag(it)))
           .assertExists()
           .assertIsDisplayed()
       }

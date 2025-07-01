@@ -12,14 +12,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @Composable
-internal fun FruitsListHeaderLetterView(initial: Char, modifier: Modifier) {
+internal fun FruitsListHeaderLetterView(initial: Char) {
   Surface(
     color = Color(0xFFC1AFEA),
     shape = RoundedCornerShape(10.dp),
     shadowElevation = 5.dp,
-    modifier = Modifier
-      .fillMaxWidth()
-      .then(modifier)
+    modifier = Modifier.fillMaxWidth()
   ) {
     Text(
       "$initial",

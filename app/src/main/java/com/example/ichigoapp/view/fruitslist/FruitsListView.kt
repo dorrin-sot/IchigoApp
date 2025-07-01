@@ -1,5 +1,6 @@
 package com.example.ichigoapp.view.fruitslist
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -12,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.ichigoapp.model.Fruit
+import com.example.ichigoapp.view.fruitslist.FruitsListViewTestTags.FRUITS_LIST_TEST_TAG
+import com.example.ichigoapp.view.fruitslist.FruitsListViewTestTags.fruitItemTestTag
 import com.example.ichigoapp.viewmodel.FruitsListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,7 +36,7 @@ fun FruitsListView(modifier: Modifier = Modifier) {
         onRefresh = { viewModel.fetchFruits() }
       )
       .padding(5.dp)
-      .testTag("fruits-list")
+      .testTag(FRUITS_LIST_TEST_TAG)
       .then(modifier),
   ) {
     fruits
@@ -40,18 +44,22 @@ fun FruitsListView(modifier: Modifier = Modifier) {
       .toSortedMap()
       .forEach { initial, list ->
         stickyHeader(initial) {
-          FruitsListHeaderLetterView(
-            initial,
-            modifier = Modifier.testTag("$initial-sticky-header")
-          )
+          FruitsListHeaderLetterView(initial)
         }
 
         items(list) { fruit ->
           FruitsListItemView(
             fruit,
-            Modifier.testTag("${fruit.id}-item")
+            Modifier.testTag(fruitItemTestTag(fruit))
           )
         }
       }
   }
+}
+
+@VisibleForTesting
+object FruitsListViewTestTags {
+  const val FRUITS_LIST_TEST_TAG = "fruits-list"
+
+  fun fruitItemTestTag(fruit: Fruit): String = "${fruit.id}-item"
 }
